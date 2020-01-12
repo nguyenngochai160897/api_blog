@@ -11,8 +11,12 @@
 |
 */
 
+use App\Http\Services\ScrapService;
+use Illuminate\Support\Facades\Route;
+
 // Route::get('/', function () {
-//     return view('welcome');
+//     (new ScrapService())->scrapCategory();
 // });
 
+Route::get('/image', 'Backend\NewsController@displayImage')->name('image.display');
 

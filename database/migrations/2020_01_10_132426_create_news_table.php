@@ -20,6 +20,7 @@ class CreateNewsTable extends Migration
             $table->text("short_description");
             $table->string("image", 255);
             $table->longText("description");
+            $table->boolean("active")->default(true);
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

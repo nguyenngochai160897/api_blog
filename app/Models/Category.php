@@ -22,4 +22,8 @@ class Category extends Model
     {
         return $this->hasMany('App\Models\News');
     }
+
+    public function categories(){
+        return $this->hasMany('App\Models\Category', 'parent_id', 'id');
+    }
 }

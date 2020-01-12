@@ -26,8 +26,7 @@ Route::prefix('user')->namespace('Backend')->group(function() {
 
 Route::resource('category', 'Backend\CategoryController');
 
-Route::resource('news', 'Backend\NewsController');
+Route::post("update-news", 'Backend\NewsController@update');
+Route::resource('news', 'Backend\NewsController', ['except'=>['update']]);
 
-// Route::prefix('news')->namespace('Backend')->group(function(){
-//     Route::resource('/', 'NewsController');
-// });
+Route::post("upload", "Backend\NewsController@upload");

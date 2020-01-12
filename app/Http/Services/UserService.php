@@ -2,6 +2,8 @@
 
 namespace App\Http\Services;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -32,18 +34,17 @@ class UserService{
     }
 
     public function login($data){
+        $user = User::where('email', $data['email'])->firstOrFail();
+
+        if (!Hash::check($data['password'], $user->password)) {
+            return response()->json(['error' => 'invalid_credentials'], 400);
+        }
+
         try {
-            if (!$token = JWTAuth::attempt($data)) {
-                return [
-                    'error' => 'invalid_credentials',
-                    'status_code' => 400
-                ];
-            }
+            $customClaims = ['id' => $user->id, 'account_type' => $user->account_type]; // Here you can pass user data on claims
+            $token = JWTAuth::fromUser($user, $customClaims);
         } catch (JWTException $e) {
-            return [
-                'error' => 'could_not_create_token',
-                'status_code' => 500
-            ];
+            return response()->json(['error' => 'auth_error'], 500);
         }
         return [
             'data' => $token,

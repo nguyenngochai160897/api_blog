@@ -29,10 +29,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('isAdmin', function(){
+        Gate::define('isAdmin', function($user){
             try {
                 $userCurrent = JWTAuth::parseToken()->authenticate();
-                return $userCurrent['account_type']=='admin' ? true : false;
+                return $userCurrent['account_type']=='admin' ;
             } catch (TokenExpiredException $e) {
                 return response()->json(['token_expired'], 400);
             } catch (TokenInvalidException $e) {

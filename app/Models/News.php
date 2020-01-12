@@ -12,7 +12,7 @@ class News extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'short_description', 'image', 'description', 'category_id',
+        'title', 'short_description', 'image', 'description', 'category_id', 'active'
     ];
     public function category(){
         return $this->belongsTo("App\Models\Category");
